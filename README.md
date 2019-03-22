@@ -1,5 +1,9 @@
 # Statistical Learning Methods Notes
 
+> This repository stores the reading notes and probably implement codes of *Statistical Learning Methods* by Hang Li.
+>
+> 本仓库用于保存《统计学习方法》（李航）的个人学习笔记以及算法实现代码。
+
 | 章节                    | 内容                                                         |                             笔记                             | 代码 |
 | ----------------------- | ------------------------------------------------------------ | :----------------------------------------------------------: | ---- |
 | 第一章-统计学习方法概论 | 1.1统计学习<br />1.2监督学习<br />1.3统计学习三要素<br />1.4模型评估与选择<br />1.5正则化与交叉验证<br />1.6泛化能力<br />1.7生成模型与判别模型<br />1.8分类问题<br />1.9标注问题<br />1.10回归问题 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp1_Introduction.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp1_Introduction.pdf) |      |
