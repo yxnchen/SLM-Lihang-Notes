@@ -21,7 +21,7 @@ $$
 \right.
 $$
 
-- **几何解释**：线性方程$w\cdot x+b=0$对应于特征空间中一个超平面$S$，其中$w$是超平面的法向量，$b$是超平面的截距；这个超平面将特征空间划分为两个部分，位于不同区域的点被分为正负类；因此$S$也叫分离超平面（separating hyperplane）；
+- **几何解释**：线性方程$w\cdot x+b=0​$对应于特征空间中一个超平面$S​$，其中$w​$是超平面的法向量，$b​$是超平面的截距；这个超平面将特征空间划分为两个部分，位于不同区域的点被分为正负类；因此$S​$也叫分离超平面（separating hyperplane）；
 
 ## 2.2 学习策略
 
@@ -35,13 +35,13 @@ $$
 - **距离损失函数**：误分类<u>*点到超平面的距离*</u>，其中某个误分类点到超平面的距离
 
 $$
--\frac{1}{\Vert w\Vert_2}y_i(w\cdot x+b)
+-\frac{1}{\Vert w\Vert_2}y_i(w\cdot x_i+b)
 $$
 
 - **感知机采用的损失函数**：误分类点到超平面的总距离（省去归一化）
 
 $$
-L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x+b)
+L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x_i+b)
 $$
 
 ​	其中$M$表示误分类点的集合，这也就是感知机的经验风险函数；
@@ -57,7 +57,7 @@ $$
 - **损失函数极小化问题**：
 
 $$
-\min\limits_{w,b}L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x+b)
+\min\limits_{w,b}L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x_i+b)
 $$
 
 - 算法流程，采用随机梯度下降法（stochastic gradient descent）：
