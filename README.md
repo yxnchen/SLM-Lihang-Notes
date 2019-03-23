@@ -14,9 +14,9 @@
 | 第四章-朴素贝叶斯法     | 4.1 朴素贝叶斯学习与分类<br />4.2 朴素贝叶斯的参数估计       | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.pdf) |      |
 | 第五章-决策树           | 5.1 决策树模型与学习<br />5.2 特征选择<br />5.3 决策树的生成<br />5.4 决策树的剪枝<br />**5.5 CART算法** | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.pdf) |      |
 | 第六章-逻辑回归与最大熵 | 6.1 逻辑回归模型<br />6.2 最大熵模型<br />6.3 最优化算法     | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.pdf) |      |
-| 附录A-梯度下降法        |                                                              |                                                              |      |
+| 附录A-梯度下降法        |                                                              | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/appendix_A.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/appendix_A.pdf) |      |
 | 附录B-牛顿法和拟牛顿法  |                                                              |                                                              |      |
-| 附录C-拉格朗日对偶性    |                                                              |                                                              |      |
+| 附录C-拉格朗日对偶性    |                                                              | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/appendix_C.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/appendix_C.pdf) |      |
 | 第七章-支持向量机       | 7.1 线性可分支持向量机与硬间隔最大化<br />7.2 线性支持向量机与软间隔最大化<br />7.3 非线性支持向量机与核函数<br />7.4 序列最小最优化算法 |                                                              |      |
 | 第八章-提升方法         | 8.1 AdaBoost算法<br />8.2 AdaBoost算法的训练误差分析<br />8.3 AdaBoost算法的解释<br />8.4 提升树 |                                                              |      |
 | 第九章-EM算法及推广     | 9.1 EM算法的引入<br />9.2 EM算法的收敛性<br />9.3 EM算法在高斯混合模型应用<br />9.4 EM算法的推广 |                                                              |      |
