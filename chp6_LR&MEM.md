@@ -307,7 +307,7 @@ $$
 
 - **IIS思路**：假设当前参数向量是$w=(w_1,w_2,\dots,w_n)^T​$，希望找到一个新的参数向量$w+\delta=(w_1+\delta_1,\dots,w_n+\delta_n)^T​$使得模型的对数似然函数值增大，如果该参数更新方法$\tau:w\rightarrow w+\delta​$存在，那就可以重复使用直到找到最大值；
 - 改进的迭代尺度算法IIS：
-  - 输入特征函数$f_1,f_2,\dots,f_n$，经验分布$\tilde{P}(X,Y)$，模型$P_w(y|x)$；
+  - 输入特征函数$f_1,f_2,\dots,f_n​$，经验分布$\tilde{P}(X,Y)​$，模型$P_w(y|x)​$；
   - 初始化参数值全部为0，$w_i=0,i=1,2,\dots,n$；
   - 对于每一个$i\in\{1,2,\dots,n\}$：
     1. 令$\delta_i​$是方程$\sum_{x,y}\tilde{P}(x)P(y|x)f_1(x,y)\text{exp}(\delta_if^{\#}(x,y))=\mathbb{E}_{\tilde{P}}(f_i)​$的解，其中$\mathbb{E}_{\tilde{P}}(f_i)=\sum_{x,y}\tilde{P}(x,y)f_i(x,y)​$，而$f^{\#}(x,y)=\sum_{i=1}^{n}f_i(x,y)​$表示所有特征在$(x,y)​$出现的次数；
@@ -332,3 +332,39 @@ $$
 
 - **拟牛顿法BFGS算法**：
 
+  1. 输入特征函数$f_1,f_2,\dots,f_n$，经验分布$\tilde{P}(X,Y)$，目标函数$f(w)=-L(w)$，梯度$g(w)=\nabla f(w)$，精度要求$\epsilon$；
+
+  2. 选定初始点$w^{(0)}$，取$B_0$为正定对称矩阵，$k=0$；
+
+  3. 如果$\Vert g(w^{(k)})\Vert<\epsilon$，停止计算，得$w^*=w^{(k)}$；否则进入下一步；
+
+  4. 由$B_k p_k=-g(w^{(k)})$求得$p_k$；
+
+  5. 一维搜索：求$\lambda_k$使得$f(w^{(k)}+\lambda_kp_k)=\min\limits_{\lambda\geq0}f(w^{(k)}+\lambda p_k)$；
+
+  6. 置$w^{(k+1)}=w^{(k)}+\lambda_kp_k$；
+
+  7. 如果$\Vert g(w^{(k+1)})\Vert<\epsilon$，停止计算，得$w^*=w^{(k+1)}$；否则按照下式求出$B_{k+1}$：
+     $$
+     B_{k+1}=B_k+\frac{y_ky_k^T}{y_k^T\delta_k}-\frac{B_k\delta_k\delta_k^TB_k}{\delta_k^TB_k\delta_k}
+     $$
+     其中$y_k=g(w^{(k+1)})-g(w^{(k)}), \delta_k=w^{(k+1)}-w^{(k)}$；
+
+  8. $k=k+1$，回到步骤（4）；
+
+- 目标函数：
+
+$$
+f(w)=\sum_{x}\tilde{P}(x)\log Z_w(x)-\sum_{x,y}\tilde{P}(x,y)\sum_{i=1}^{n}w_if_i(x,y)
+$$
+
+- 梯度：
+
+$$
+g(w)=\left(\frac{\partial f(w)}{\partial w_1},\frac{\partial f(w)}{\partial w_2},\dots,\frac{\partial f(w)}{\partial w_n}\right)^T
+$$
+
+​	其中
+$$
+\frac{\partial f(w)}{\partial w_i}=\sum_{x,y}\tilde{P}(x)P_w(y|x)f_i(x,y)-\mathbb{E}_{\tilde{P}}(f_i), i=1,2,\dots,n
+$$
