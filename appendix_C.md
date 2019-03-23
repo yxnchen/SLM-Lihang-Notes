@@ -122,8 +122,6 @@ $$
 $$
 \begin{aligned}
 \nabla_x L(x^*,\alpha^*,\beta^*) &= 0 \\
-\nabla_\alpha L(x^*,\alpha^*,\beta^*) &= 0 \\
-\nabla_\beta L(x^*,\alpha^*,\beta^*) &= 0 \\
 \alpha_i^*c_i(x^*) &= 0, i=1,2,\dots,k \\
 c_i(x^*) &\leq 0, i=1,2,\dots,k \\
 \alpha_i^* &\geq 0, i=1,2,\dots,k \\
@@ -131,4 +129,4 @@ h_j(x^*) &=0, j=1,2,\dots,l
 \end{aligned}
 $$
 
-​	其中$\alpha_i^*c_i(x^*) = 0, i=1,2,\dots,k$成为KKT的<u>*对偶互补条件*</u>，由此条件可知：如果$\alpha_i^*>0$，则$c_i(x^*)=0$
+​	其中$\alpha_i^*c_i(x^*) = 0, i=1,2,\dots,k$称为KKT的<u>*对偶互补条件*</u>，由此条件可知：如果$\alpha_i^*>0$，则$c_i(x^*)=0$
