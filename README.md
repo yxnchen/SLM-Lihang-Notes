@@ -1,6 +1,6 @@
 # Statistical Learning Methods Notes
 
-<img src="./graphics/icon.png" width ="30%"  />
+<p align="center"><img src="./graphics/icon.png" width ="35%"  /></p>
 
 > This repository stores the reading notes and probably implement codes of *Statistical Learning Methods* by Hang Li.
 >
