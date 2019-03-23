@@ -1,5 +1,7 @@
 # Statistical Learning Methods Notes
 
+<img src="./graphics/icon.png" width ="30%"  />
+
 > This repository stores the reading notes and probably implement codes of *Statistical Learning Methods* by Hang Li.
 >
 > 本仓库用于保存《统计学习方法》（李航）的个人学习笔记以及算法实现代码。
