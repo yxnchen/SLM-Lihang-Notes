@@ -227,7 +227,7 @@ $$
 \end{aligned}
 $$
 
-​	令偏导等于0，在$\tilde{P}(x)》0​$情况下，解得：
+​	令偏导等于0，在$\tilde{P}(x)>0​$情况下，解得：
 $$
 P(y|x)=\text{exp}\left(\sum_{i=1}^{n}w_if_i(x,y)+w_0-1\right)=\frac{\text{exp}\left(\sum_{i=1}^{n}w_if_i(x,y)\right)}{\text{exp}(1-w_0)}
 $$
