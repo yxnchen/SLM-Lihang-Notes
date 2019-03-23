@@ -6,19 +6,19 @@
 
 | 章节                    | 内容                                                         |                             笔记                             | 代码 |
 | ----------------------- | ------------------------------------------------------------ | :----------------------------------------------------------: | ---- |
-| 第一章-统计学习方法概论 | 1.1统计学习<br />1.2监督学习<br />1.3统计学习三要素<br />1.4模型评估与选择<br />1.5正则化与交叉验证<br />1.6泛化能力<br />1.7生成模型与判别模型<br />1.8分类问题<br />1.9标注问题<br />1.10回归问题 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp1_Introduction.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp1_Introduction.pdf) |      |
-| 第二章-感知机           | 2.1感知机模型<br />2.2感知机学习策略<br />2.3感知机学习算法  | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp2_Perceptron.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp2_Perceptron.pdf) |      |
-| 第三章-k近邻法          | 3.1k近邻算法<br />3.2k近邻模型<br />3.3k近邻法的实现-kd树    | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp3_kNN.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp3_kNN.pdf) |      |
-| 第四章-朴素贝叶斯法     | 4.1朴素贝叶斯学习与分类<br />4.2朴素贝叶斯的参数估计         | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.pdf) |      |
-| 第五章-决策树           | 5.1决策树模型与学习<br />5.2特征选择<br />5.3决策树的生成<br />5.4决策树的剪枝<br />**5.5CART算法** | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.pdf) |      |
-| 第六章-逻辑回归于最大熵 | 6.1逻辑回归模型<br />6.2最大熵模型<br />6.3最优化算法        | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.pdf) |      |
+| 第一章-统计学习方法概论 | 1.1 统计学习<br />1.2 监督学习<br />1.3 统计学习三要素<br />1.4 模型评估与选择<br />1.5 正则化与交叉验证<br />1.6 泛化能力<br />1.7 生成模型与判别模型<br />1.8 分类问题<br />1.9 标注问题<br />1.10 回归问题 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp1_Introduction.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp1_Introduction.pdf) |      |
+| 第二章-感知机           | 2.1 感知机模型<br />2.2 感知机学习策略<br />2.3 感知机学习算法 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp2_Perceptron.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp2_Perceptron.pdf) |      |
+| 第三章-k近邻法          | 3.1 k近邻算法<br />3.2 k近邻模型<br />3.3 k近邻法的实现-kd树 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp3_kNN.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp3_kNN.pdf) |      |
+| 第四章-朴素贝叶斯法     | 4.1 朴素贝叶斯学习与分类<br />4.2 朴素贝叶斯的参数估计       | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.pdf) |      |
+| 第五章-决策树           | 5.1 决策树模型与学习<br />5.2 特征选择<br />5.3 决策树的生成<br />5.4 决策树的剪枝<br />**5.5 CART算法** | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.pdf) |      |
+| 第六章-逻辑回归与最大熵 | 6.1 逻辑回归模型<br />6.2 最大熵模型<br />6.3 最优化算法     | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.pdf) |      |
 | 附录A-梯度下降法        |                                                              |                                                              |      |
 | 附录B-牛顿法和拟牛顿法  |                                                              |                                                              |      |
 | 附录C-拉格朗日对偶性    |                                                              |                                                              |      |
-| 第七章-支持向量机       | 7.1线性可分支持向量机与硬间隔最大化<br />7.2线性支持向量机与软间隔最大化<br />7.3非线性支持向量机与核函数<br />7.4序列最小最优化算法 |                                                              |      |
-| 第八章-提升方法         | 8.1AdaBoost算法<br />8.2AdaBoost算法的训练误差分析<br />8.3AdaBoost算法的解释<br />8.4提升树 |                                                              |      |
-| 第九章-EM算法及推广     | 9.1EM算法的引入<br />9.2EM算法的收敛性<br />9.3EM算法在高斯混合模型应用<br />9.4EM算法的推广 |                                                              |      |
-| 第十章-隐马尔可夫模型   | 10.1基本概念<br />10.2概念计算算法<br />10.3学习算法<br />10.4预测算法 |                                                              |      |
-| 第十一章-条件随机场     | 11.1概念无向图模型<br />11.2条件随机场定义与形式<br />11.3条件随机场概念计算问题<br />11.4条件随机场学习算法<br />11.5条件随机场预测算法 |                                                              |      |
+| 第七章-支持向量机       | 7.1 线性可分支持向量机与硬间隔最大化<br />7.2 线性支持向量机与软间隔最大化<br />7.3 非线性支持向量机与核函数<br />7.4 序列最小最优化算法 |                                                              |      |
+| 第八章-提升方法         | 8.1 AdaBoost算法<br />8.2 AdaBoost算法的训练误差分析<br />8.3 AdaBoost算法的解释<br />8.4 提升树 |                                                              |      |
+| 第九章-EM算法及推广     | 9.1 EM算法的引入<br />9.2 EM算法的收敛性<br />9.3 EM算法在高斯混合模型应用<br />9.4 EM算法的推广 |                                                              |      |
+| 第十章-隐马尔可夫模型   | 10.1 基本概念<br />10.2 概念计算算法<br />10.3 学习算法<br />10.4 预测算法 |                                                              |      |
+| 第十一章-条件随机场     | 11.1 概念无向图模型<br />11.2 条件随机场定义与形式<br />11.3 条件随机场概念计算问题<br />11.4 条件随机场学习算法<br />11.5 条件随机场预测算法 |                                                              |      |
 | 第十二章-方法总结       |                                                              |                                                              |      |
 
