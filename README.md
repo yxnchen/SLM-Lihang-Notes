@@ -11,7 +11,10 @@
 | 第三章-k近邻法          | 3.1k近邻算法<br />3.2k近邻模型<br />3.3k近邻法的实现-kd树    | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp3_kNN.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp3_kNN.pdf) |      |
 | 第四章-朴素贝叶斯法     | 4.1朴素贝叶斯学习与分类<br />4.2朴素贝叶斯的参数估计         | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp4_naive%20Bayes.pdf) |      |
 | 第五章-决策树           | 5.1决策树模型与学习<br />5.2特征选择<br />5.3决策树的生成<br />5.4决策树的剪枝<br />**5.5CART算法** | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp5_Decision%20tree.pdf) |      |
-| 第六章-逻辑回归于最大熵 | 6.1逻辑回归模型<br />6.2最大熵模型<br />6.3最优化算法        |                                                              |      |
+| 第六章-逻辑回归于最大熵 | 6.1逻辑回归模型<br />6.2最大熵模型<br />6.3最优化算法        | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp6_LR%26MEM.pdf) |      |
+| 附录A-梯度下降法        |                                                              |                                                              |      |
+| 附录B-牛顿法和拟牛顿法  |                                                              |                                                              |      |
+| 附录C-拉格朗日对偶性    |                                                              |                                                              |      |
 | 第七章-支持向量机       | 7.1线性可分支持向量机与硬间隔最大化<br />7.2线性支持向量机与软间隔最大化<br />7.3非线性支持向量机与核函数<br />7.4序列最小最优化算法 |                                                              |      |
 | 第八章-提升方法         | 8.1AdaBoost算法<br />8.2AdaBoost算法的训练误差分析<br />8.3AdaBoost算法的解释<br />8.4提升树 |                                                              |      |
 | 第九章-EM算法及推广     | 9.1EM算法的引入<br />9.2EM算法的收敛性<br />9.3EM算法在高斯混合模型应用<br />9.4EM算法的推广 |                                                              |      |
