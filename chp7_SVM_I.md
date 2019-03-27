@@ -188,3 +188,107 @@ $$
 
 ### 7.1.4 学习的对偶算法
 
+- **线性可分支持向量机的对偶算法**：把约束最优化问题作为原始最优化问题，应用拉格朗日对偶性，通过求解对偶问题得到原始问题的最优解；
+- 好处：1）对偶问题更容易求解；2）自然引入核函数，推广到非线性情况；
+- 定义拉格朗日函数：
+
+$$
+L(w,b,\alpha)=\frac{1}{2}\Vert w\Vert^2-\sum_{i=1}^{N}\alpha_iy_i(w\cdot x_i+b)+\sum_{i=1}^{N}\alpha_i
+$$
+
+​	其中$\alpha=(\alpha_i,\dots,\alpha_N)^T$是拉格朗日乘子向量；
+
+
+
+- 根据对偶性（附录C），原始问题的对偶问题是极大极小问题：
+
+$$
+\max\limits_{\alpha}\min\limits_{w,b}L(w,b,\alpha)
+$$
+
+- 先求$\min\limits_{w,b}L(w,b,\alpha)​$：
+
+  - 将拉格朗日函数分别对$w,b$求偏导并令其为0：
+    $$
+    \begin{aligned}
+    \nabla_w L(w,b,\alpha)=w-\sum_{i=1}^{N}\alpha_iy_ix_i=0 &\rightarrow w=\sum_{i=1}^{N}\alpha_iy_ix_i \\
+    \nabla_b L(w,b,\alpha)=\sum_{i=1}^{N}\alpha_iy_i=0 &\rightarrow \sum_{i=1}^{N}\alpha_iy_i=0\\
+    \end{aligned}
+    $$
+
+  - 重新代入拉格朗日函数，可得：
+    $$
+    \begin{aligned}
+    L(w,b,\alpha)&=\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)-\sum_{i=1}^{N}\alpha_iy_i\left(\left(\sum_{j=1}^{N}\alpha_jy_jx_j\right)\cdot x_i+b\right)+\sum_{i=1}^{N}\alpha_i \\
+    &=-\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)+\sum_{i=1}^{N}\alpha_i 
+    \end{aligned}
+    $$
+
+  - 即$\min\limits_{w,b}L(w,b,\alpha)=-\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)+\sum_{i=1}^{N}\alpha_i ​$
+
+- 再求$\min\limits_{w,b}L(w,b,\alpha)$对$\alpha$的极大，即是对偶问题
+
+$$
+\begin{aligned}
+&\max\limits_{\alpha}\quad-\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)+\sum_{i=1}^{N}\alpha_i\\
+& \begin{array}{r@{\quad}l@{\quad}l}
+\text{s.t.} & \quad\sum_{i=1}^{N}\alpha_iy_i=0 &\\
+& \quad\alpha_i\geq 0, &i=1,2,\dots,N\\
+\end{array}
+\end{aligned}
+$$
+
+- 将上式由求极大转化为求极小，得到下面等价的对偶最优化问题：
+
+$$
+\begin{aligned}
+&\min\limits_{\alpha} \quad\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)-\sum_{i=1}^{N}\alpha_i\\
+& \begin{array}{r@{\quad}l@{\quad}l}
+\text{s.t.} & \quad\sum_{i=1}^{N}\alpha_iy_i=0 &\\
+& \quad\alpha_i\geq 0, &i=1,2,\dots,N\\
+\end{array}
+\end{aligned}
+$$
+
+- 由附录C定理2可知，存在$w^*,b^*,\alpha^*$使得$w^*,b^*$是原始问题的解，$\alpha^*$是对偶问题的解，求解原始问题可以转换为求解对偶问题；
+- 对于线性可分训练数据，假设对偶最优化问题对$\alpha$的解为$\alpha^*=(\alpha_1^*,\dots,\alpha_N^*)^T$，可以由$\alpha^*$求得原始最优化问题对$(w,b)$的解$w^*,b^*$；
+- **定理**：设对偶最优化问题解为$\alpha^*=(\alpha_1^*,\dots,\alpha_N^*)^T​$，则存在下标$j​$使得$\alpha_j^*>0​$，并可按下式求得原始最优化问题的解
+
+$$
+\begin{aligned}
+w^*&=\sum_{i=1}^{N}\alpha_i^*y_ix_i \\
+b^*&=y_j -\sum_{i=1}^{N}\alpha_i^*y_i(x_i\cdot x_j)
+\end{aligned}
+$$
+
+​	此定理可以根据附录C定理3的KKT条件证明，由此而得到的分类决策函数可以写成：
+$$
+f(x)=\text{sign}\left(\sum_{i=1}^{N}\alpha_i^*y_i(x\cdot x_i)+b^*\right)
+$$
+​	也就是说，分类决策函数<u>只依赖于输入$x$和训练样本的内积</u>，上式称为**线性可分支持向量机的对偶形式**；
+
+
+
+- **线性可分支持向量机的对偶学习算法**：
+
+  1. **输入**线性可分训练集$T$；
+
+  2. 构造并求解约束最优化问题，得到最优解$\alpha^*=(\alpha_1^*,\dots,\alpha_N^*)^T$
+     $$
+     \begin{aligned}
+     &\min\limits_{\alpha} \quad\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j(x_i\cdot x_j)-\sum_{i=1}^{N}\alpha_i\\
+     & \begin{array}{r@{\quad}l@{\quad}l}
+     \text{s.t.} & \quad\sum_{i=1}^{N}\alpha_iy_i=0 &\\
+     & \quad\alpha_i\geq 0, &i=1,2,\dots,N\\
+     \end{array}
+     \end{aligned}
+     $$
+
+  3. 计算$w^*=\sum_{i=1}^{N}\alpha_i^*y_ix_i​$，并选择$\alpha^*​$的一个正分量$\alpha_j^*>0​$，计算$b^*=y_j -\sum_{i=1}^{N}\alpha_i^*y_i(x_i\cdot x_j)​$；
+  4. 求得分离超平面$w^*\cdot x+b^*=0$，和相应的分类决策函数；
+
+
+
+- 由$w^*,b^*​$的计算式可知，其只依赖于训练数据中对应于$\alpha_j^*>0​$的样本点$(x_j,y_j)​$，而其他样本点没有影响，这些实例$x_j\in\mathbb{R}^n​$称为**支持向量**；
+- **支持向量定义**：考虑原始最优化问题及对偶最优化问题，将训练集中对应$\alpha_j^*>0$的样本点$(x_j,y_j)$的实例$x_j\in\mathbb{R}^n$称为支持向量；
+- 根据这一定义，支持向量一定在间隔边界上（由KKT互补条件可计算得到），与上一节的定义一致；
