@@ -147,3 +147,46 @@ $$
 
 ### 7.2.4 合页损失函数
 
+- 线性支持向量机学习还有另外一种解释，就是最小化一下目标函数：
+
+$$
+\sum_{i=1}^{N}\left[1-y_i(w\cdot x_i+b)\right]_+ + \lambda\Vert w\Vert^2
+$$
+
+​	目标函数的第一项是经验损失或者经验风险，函数$L(y(w\cdot x+b))=[1-y(w\cdot x+b)]_+$称为**合页损失函数**（hinge loss function），下标“+”表示取正值函数：
+$$
+[z]_+=\left\{
+\begin{aligned}
+z, &z> 0 \\
+0, &z \leq 0 
+\end{aligned}
+\right.
+$$
+
+​	也即当样本点$(x_i,y_i)​$被正确分类且函数间隔（确信度）$y_i(w\cdot x_i +b)​$大于1是，损失为0，否则损失是$1-y_i(w\cdot x_i +b)​$；
+
+​	目标函数的第二项是系数为$\lambda$的$L_2$范数，是正则化项；
+
+- **定理**：线性支持向量机原始最优化问题
+
+$$
+\begin{aligned}
+&\min\limits_{w,b}\quad \frac{1}{2}\Vert w\Vert^2+C\sum_{i=1}^{N}\xi_i\\
+& \begin{array}{r@{\quad}l@{\quad}l}
+\text{s.t.} &\quad y_i\left(w\cdot x_i+b\right)-1\geq 0, &i=1,2,\dots,N\\
+& \quad \xi_i \geq 0, &i=1,2,\dots,N
+\end{array}
+\end{aligned}
+$$
+
+​	等价于最优化问题：
+$$
+\min\limits_{w,b}\quad\sum_{i=1}^{N}\left[1-y_i(w\cdot x_i+b)\right]_+ + \lambda\Vert w\Vert^2
+$$
+
+- 下图画出了合页损失函数的图像，横轴是函数间隔$y(w\cdot x+b)$，纵轴是损失，<u>*形状像一个合页*</u>，故名合页损失函数：
+  - 图中还有0-1损失函数，可以认为是二分类问题的真正损失函数，而<u>*合页损失函数是其上界*</u>；
+  - 由于0-1损失函数不是连续可导，直接优化其构成的目标函数较难，可以认为线性支持向量机是优化0-1损失函数的上界构成的目标函数，这时的上界损失函数又称为**代理损失函数**（surrogate loss function）；
+  - 虚线表示感知机的损失函数$[y_i(w\cdot x_i+b)]_+$，这时当样本点$(x_i,y_i)$被正确分类时，损失为0，否则损失是$-y_i(w\cdot x_i +b)$，相比之下合页损失函数不仅要分类正确，而且确信度足够高才是0，即对学习有更高要求；
+
+![](./graphics/hinge-loss-function.png)
