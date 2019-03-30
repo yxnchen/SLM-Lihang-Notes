@@ -209,4 +209,3 @@ $$
      f(x)=\text{sign}\left(\sum_{i=1}^{N}\alpha_i^*y_iK(x_i,x)+b^*\right)
      $$
      
-
