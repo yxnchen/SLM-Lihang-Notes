@@ -212,7 +212,7 @@ $$
     $$
     \begin{aligned}
     \nabla_w L(w,b,\alpha)=w-\sum_{i=1}^{N}\alpha_iy_ix_i=0 &\rightarrow w=\sum_{i=1}^{N}\alpha_iy_ix_i \\
-    \nabla_b L(w,b,\alpha)=\sum_{i=1}^{N}\alpha_iy_i=0 &\rightarrow \sum_{i=1}^{N}\alpha_iy_i=0\\
+    \nabla_b L(w,b,\alpha)=-\sum_{i=1}^{N}\alpha_iy_i=0 &\rightarrow \sum_{i=1}^{N}\alpha_iy_i=0\\
     \end{aligned}
     $$
 
