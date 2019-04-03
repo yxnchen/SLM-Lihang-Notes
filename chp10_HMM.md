@@ -111,4 +111,224 @@ $$
 
 ### 10.2.2 前向算法
 
-- **前向概率**：给定隐马尔科夫模型$\lambda$，定义到时刻$t$部分观测序列为$o_1,o_2,\dots,o_t$且
+- **前向概率**：给定隐马尔科夫模型$\lambda​$，定义到时刻$t​$部分观测序列为$o_1,o_2,\dots,o_t​$且状态为$q_i​$的概率为前向概率
+
+$$
+\alpha_t(i)=P(o_1,o_2,\dots,o_t,i_t=q_i|\lambda)
+$$
+
+​	可以递推地求得前向概率$\alpha_t(i)​$及观测序列概率$P(O|\lambda)​$；
+
+- **观测序列概率的前向算法**：
+
+  1. **输入**隐马尔可夫模型$\lambda​$，观测序列$O​$；
+
+  2. 初值：$\alpha_1(i)=\pi_ib_i(o_1), \quad i=1,2,\dots,N​$；
+
+  3. 递推，对于$t=1,2,\dots,T-1​$
+     $$
+     \alpha_{t+1}(i)=\left[\sum_{j=1}^{N}\alpha_t(j)a_{ji}\right]b_i(o_{t+1})
+     $$
+
+  4. 终止：
+     $$
+     P(O|\lambda)=\sum_{i=1}^{N}\alpha_T(i)
+     $$
+
+- 算法解释：
+
+  1. 初始化前向概率，是初始时刻的状态$i_1=q_i$和观测$o_1$的<u>*联合概率*</u>；
+
+  2. 递推公式中，计算到时刻$t+1​$部分观测序列为$o_1,o_2,\dots,o_t,o_{t+1}​$且在时刻$t+1​$处于状态$q_i​$的<u>*前向概率*</u>；
+
+     ![](./graphics/forward-probability.png)
+
+  3. 既然$\alpha_t(j)$是到时刻$t$观测到$o_1,o_2,\dots,o_t$，且在时刻$t$处于状态$q_j$的<u>*前向概率*</u>，那么乘积$\alpha_t(j)a_{ji}$就是到时刻$t$观测到$o_1,o_2,\dots,o_t$，且在时刻$t$处于状态$q_j$，而在时刻$t+1$到达状态$q_i$的<u>*联合概率*</u>；
+
+  4. 进一步对这个乘积在时刻$t​$的所有可能的$N​$个状态求和，结果就是时刻$t​$观测到$o_1,o_2,\dots,o_t​$，并在时刻$t+1​$处于状态$q_i​$的<u>*联合概率*</u>；
+
+  5. 上述求和的值与观测概率$b_i(o_{t+1})$的乘积恰好就是到时刻$t+1$观测到$o_1,o_2,\dots,o_t,o_{t+1}$并在时刻$t+1$处于状态$q_i$的<u>*前向概率*</u>；
+
+  6. 最后一步中，因为$\alpha_T(i)=P(o_1,o_2,\dots,o_T,i_T=q_i|\lambda)$，所以得出$P(O|\lambda)=\sum_{i=1}^{N}\alpha_T(i)$；
+
+- 前向算法实际是基于“状态序列的路径结构”递推计算的算法，关键在于其<u>*局部计算前向概率*</u>，然后利用路径结构将前向概率递推到全局；
+
+- 减少计算量的原因在于每一次计算直接引用前一个时刻的计算结果，避免重复，因此其计算复杂度为$O(N^2T)$；
+
+### 10.2.3 后向算法
+
+- **后向概率**：给定隐马尔科夫模型$\lambda​$，定义在时刻$t​$状态为$q_i​$的条件下，观测序列$o_{t+1},o_{t+2},\dots,o_T​$的概率为后向概率
+
+$$
+\beta_t(i)=P(o_{t+1},o_{t+2},\dots,o_T|i_t=q_i,\lambda)
+$$
+
+​	可以用递推的方法求得后向概率$\beta_t(i)​$及观测序列概率$P(O|\lambda)​$；
+
+- **观测序列概率的后向算法**：
+
+  1. **输入**隐马尔可夫模型$\lambda​$，观测序列$O​$；
+
+  2. 初值：$\beta_T(i)=1, \quad i=1,2,\dots,N​$；
+
+  3. 递推，对于$t=T-1,T-2,\dots,1$
+     $$
+     \beta_t(i)=\sum_{j=1}^{N}a_{ij}b_j(o_{t+1})\beta_{t+1}(j), i=1,2,\dots,N
+     $$
+
+  4. 终止
+     $$
+     P(O|\lambda)=\sum_{i=1}^{N}\pi_ib_i(o_1)\beta_1(i)
+     $$
+
+- 算法解释：
+
+  1. 初始化后向概率，对最终时刻的所有状态$q_i$规定$\beta_T(i)=1$；
+
+  2. 递推公式中，为了计算在时刻$t$状态为$q_i$条件下时刻$t+1$之后的观测序列为$o_{t+1},o_{t+2},\dots,o_T$的后向概率$\beta_t(i)$，只需考虑在时刻$t+1$所有可能的$N$个状态$q_j$的转移概率（即$a_{ij}$），以及在此状态下的观测$o_{t+1}$的观测概率（即$b_j(o_{t+1})$），然后考虑状态$q_j$之后的观测序列的后向概率（即$\beta_{t+1}(j)​$）；
+
+     ![](./graphics/backward-probability.png)
+
+  3. 求$P(O|\lambda)​$的思路类似，只是把初始概率$\pi_i​$替代转移概率；
+
+
+
+- 利用前向概率与后向概率的定义可以将观测序列概率统一写成
+
+$$
+P(O|\lambda)=\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j), \quad t=1,2,\dots,T-1
+$$
+
+​	当$t=1$时对于后向概率，当$t=T-1$时对应前向概率；
+
+### 10.2.4 一些概率与期望值的计算
+
+1. 给定模型模型$\lambda​$，观测序列$O​$，在时刻$t​$处于状态$q_i​$的概率，记作
+
+$$
+\gamma_t(i)=P(i_t=q_i|O,\lambda)
+$$
+
+​	可以通过前向后向概率计算，即
+$$
+\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}
+$$
+​	由前向概率$\alpha_t(i)$和后向概率$\beta_t(i)$定义可知
+$$
+\alpha_t(i)\beta_t(i)=P(i_t=q_i,O|\lambda)
+$$
+​	因此可以得到
+$$
+\gamma_t(i)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^{N}\alpha_t(j)\beta_t(j)}
+$$
+
+2. 给定模型模型$\lambda​$，观测序列$O​$，在时刻$t​$处于状态$q_i​$且在时刻$t+1​$处于状态$q_j​$的概率记为
+
+$$
+\xi_t(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)
+$$
+
+​	可以通过前向后向概率计算
+$$
+\xi_t(i,j)=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{\sum_{i=1}^{N}\sum_{j=1}^{N}P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}
+$$
+​	而
+$$
+P(i_t=q_i,i_{t+1}=q_j,O|\lambda)=\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)
+$$
+​	因此
+$$
+\xi_t(i,j)=\frac{\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}{\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}
+$$
+
+3. 将$\gamma_t(i)$和$\xi_t(i,j)$对各个时刻求和，可以得到一些有用的期望值
+
+   - 在观测序列$O$下状态$i$出现的期望值
+     $$
+     \sum_{t=1}^{T}\gamma_t(i)
+     $$
+
+   - 在观测序列$O$下由状态$i$转移的期望值
+     $$
+     \sum_{t=1}^{T-1}\gamma_t(i)
+     $$
+
+   - 在观测序列$O$下由状态$i$转移到状态$j$的期望值
+     $$
+     \sum_{t=1}^{T-1}\xi_t(i,j)
+     $$
+
+## 10.3 学习算法
+
+> 根据训练数据是包括观测序列和对应的状态序列还是只有观测序列，可以分别由监督学习与非监督学习实现（Baum-Welsh算法，即EM算法）
+
+### 10.3.1 监督学习方法
+
+- 假设已给训练数据包含$S$个长度相同的观测序列和对应的状态序列$\{(O_1,I_1),\cdots,(O_S,I_S)\}$，那么可以用极大似然估计法来估计隐马尔可夫模型的参数：
+
+  1. 转移概率$a_{ij}$估计，设样本中前一个时刻处于状态$i$到下一个时刻转移到状态$j$的频数为$A_{ij}$，那么状态转移概率的估计是
+     $$
+     \hat{a}_{ij}=\frac{A_{ij}}{\sum_{j=1}^{N}A_{ij}}
+     $$
+
+  2. 观测概率$b_j(k)​$估计，设样本中状态为$j​$并且观测为$k​$频数为$B_{jk}​$，那么观测概率估计是
+     $$
+     \hat{b}_j(k)=\frac{B_{jk}}{\sum_{k=1}^{M}B_{jk}}
+     $$
+
+  3. 初始状态概率$\pi_i$的估计为$S$个样本中初始状态为$q_i$的频率；
+
+### 10.3.2 Baum-Welsh算法
+
+- 假设给定训练数据包含$S$个长度为$T$的观测序列$\{O_1,\cdots,O_S\}$，没有对应的状态序列，目标是学习隐马尔可夫模型$\lambda=(A,B,\pi)$的参数；
+- 将观测序列看作是观测数据$O$，状态序列看作不可观测的隐数据$I$，那么隐马尔可夫模型实际上是一个含有隐变量的概率模型：
+
+$$
+P(O|\lambda)=\sum_{I}P(O|I,\lambda)P(I|\lambda)
+$$
+
+​	可以通过EM算法实现；
+
+
+
+1. 确实完全数据的对数似然函数，所有观测数据写成$O=(o_1,o_2,\dots,o_T)$，所有隐数据写成$I=(i_1,i_2,\dots,i_T)$，则完全数据是$(O,I)=(o_1,o_2,\dots,o_T,i_1,i_2,\dots,i_T)$，其对数似然函数是
+
+$$
+\log P(O,I|\lambda)
+$$
+
+2. E步，求$Q​$函数$Q(\lambda,\tilde{\lambda})​$
+
+$$
+\begin{aligned}
+Q(\lambda,\tilde{\lambda})&=\sum_{I}\log P(O,I|\lambda)P(I|O,\lambda) \\
+& = \sum_{I}\log P(O,I|\lambda)\frac{P(I,O|\tilde{\lambda})}{P(O|\tilde{\lambda})} \\
+& = \sum_{I}\log P(O,I|\lambda)P(I,O|\tilde{\lambda})
+\end{aligned}
+$$
+
+​	省去了常数因子$1/P(O|\tilde{\lambda})$，其中$\tilde{\lambda}$hi是模型参数的当前估计值，目标是得到极大化的参数；
+$$
+P(O,I|\lambda)=\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)\cdots a_{i_{T-1}i_T}b_{i_T}(o_T)
+$$
+​	因此函数$Q(\lambda,\tilde{\lambda})​$可以写成
+$$
+\begin{aligned}
+Q(\lambda,\tilde{\lambda})=& \sum_{I}\log\pi_{i_1}P(I,O|\tilde{\lambda}) +\sum_{I}\left(\sum_{t=1}^{T-1}a_{i_ti_{t+1}}\right)P(I,O|\tilde{\lambda})\\
+&+\sum_{I}\left(\sum_{t=1}^{T}b_{i_t}(o_t)\right)P(I,O|\tilde{\lambda})\\
+\end{aligned}
+$$
+​	式中求和都是对所有训练数据的序列总长度$T$进行；
+
+3. M步，极大化$Q(\lambda,\tilde{\lambda})$函数求模型参数
+
+   由于要极大化的参数单独地出现在3个项中，所以只需要对各个项极大化即可：
+
+   1. 第一项可以写成
+      $$
+      \sum_{I}\log\pi_{i_1}P(I,O|\tilde{\lambda}) =\sum_{i=1}^{N}\log \pi_iP(O,i_1=i|\tilde{\lambda})
+      $$
+      
+
+   2. 第二项
+
