@@ -291,7 +291,7 @@ $$
 
 
 
-1. 确实完全数据的对数似然函数，所有观测数据写成$O=(o_1,o_2,\dots,o_T)$，所有隐数据写成$I=(i_1,i_2,\dots,i_T)$，则完全数据是$(O,I)=(o_1,o_2,\dots,o_T,i_1,i_2,\dots,i_T)$，其对数似然函数是
+1. 确实完全数据的对数似然函数，所有观测数据写成$O=(o_1,o_2,\dots,o_T)​$，所有隐数据写成$I=(i_1,i_2,\dots,i_T)​$，则完全数据是$(O,I)=(o_1,o_2,\dots,o_T,i_1,i_2,\dots,i_T)​$，其对数似然函数是
 
 $$
 \log P(O,I|\lambda)
@@ -314,8 +314,8 @@ $$
 ​	因此函数$Q(\lambda,\tilde{\lambda})​$可以写成
 $$
 \begin{aligned}
-Q(\lambda,\tilde{\lambda})=& \sum_{I}\log\pi_{i_1}P(I,O|\tilde{\lambda}) +\sum_{I}\left(\sum_{t=1}^{T-1}a_{i_ti_{t+1}}\right)P(I,O|\tilde{\lambda})\\
-&+\sum_{I}\left(\sum_{t=1}^{T}b_{i_t}(o_t)\right)P(I,O|\tilde{\lambda})\\
+Q(\lambda,\tilde{\lambda})=& \sum_{I}\log\pi_{i_1}P(I,O|\tilde{\lambda}) +\sum_{I}\left(\sum_{t=1}^{T-1}\log a_{i_ti_{t+1}}\right)P(I,O|\tilde{\lambda})\\
+&+\sum_{I}\left(\sum_{t=1}^{T}\log b_{i_t}(o_t)\right)P(I,O|\tilde{\lambda})\\
 \end{aligned}
 $$
 ​	式中求和都是对所有训练数据的序列总长度$T$进行；
@@ -328,7 +328,146 @@ $$
       $$
       \sum_{I}\log\pi_{i_1}P(I,O|\tilde{\lambda}) =\sum_{i=1}^{N}\log \pi_iP(O,i_1=i|\tilde{\lambda})
       $$
+      其中$\pi_i​$满足约束条件$\sum_{i=1}^{N}\pi_i=1​$，利用拉格朗日乘子法，得到拉格朗日函数
+      $$
+      \sum_{i=1}^{N}\log \pi_iP(O,i_1=i|\tilde{\lambda})+\gamma\left(\sum_{i=1}^{N}\pi_i=1\right)
+      $$
+      对其求偏导并令为0
+      $$
+      \frac{\partial}{\partial \pi_i}\left[\sum_{i=1}^{N}\log \pi_iP(O,i_1=i|\tilde{\lambda})+\gamma\left(\sum_{i=1}^{N}\pi_i=1\right)\right]=0
+      $$
+      得到
+      $$
+      P(O,i_1=i|\tilde{\lambda}) + \gamma  \pi_i=0
+      $$
+      对$i$求和得到
+      $$
+      \gamma=-P(O|\tilde{\lambda})
+      $$
+      因此代入可得
+      $$
+      \pi_i=\frac{P(O,i_1=i|\tilde{\lambda})}{P(O|\tilde{\lambda})}
+      $$
+
+   2. 第二项可以写成
+      $$
+      \sum_{I}\left(\sum_{t=1}^{T-1}\log a_{i_ti_{t+1}}\right)P(I,O|\tilde{\lambda})=\sum_{i=1}^{N}\sum_{j=1}^{N}\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\tilde{\lambda})
+      $$
+      类似第一项，通过构造拉格朗日函数，约束条件是$\sum_{j=1}^{N}a_{ij}=1$，可以求得
+      $$
+      a_{ij}=\frac{\sum_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\tilde{\lambda})}{\sum_{t=1}^{T-1}P(O,i_t=i|\tilde{\lambda})}
+      $$
+
+   3. 第三项写成
+      $$
+      \sum_{I}\left(\sum_{t=1}^{T}\log b_{i_t}(o_t)\right)P(I,O|\tilde{\lambda})=\sum_{j=1}^{N}\sum_{t=1}^{T}\log b_{j}(o_t)P(O,i_t=j|\tilde{\lambda})
+      $$
+      同样用拉格朗日乘子法，约束条件是$\sum_{k=1}^{M}b_j(k)=1​$，注意只有在$o_t=v_k​$时$b_j(o_t)​$对$b_j(k)​$的偏导数才不为0，以$I(o_t=v_k)​$表示
+      $$
+      b_j(k)=\frac{\sum_{t=1}^{T}P(O,i_t=j|\tilde{\lambda})I(o_t=v_k)}{\sum_{t=1}^{T}P(O,i_t=j|\tilde{\lambda})}
+      $$
       
 
-   2. 第二项
+### 10.3.3 Baum-Welsh模型参数估计公式
+
+- 将上述M步的各个概率用$\gamma_t(i)$和$\xi_t(i,j)$表示，可以写成
+
+$$
+\begin{aligned}
+a_{ij}&=\frac{\sum_{t=1}^{T-1}\xi_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)} \\
+b_j(k)&=\frac{\sum_{t=1,o_t=v_k}^{T}\gamma_t(j)}{\sum_{t=1}^{T}\gamma_t(j)} \\
+\pi_i&=\gamma_1(i)
+\end{aligned}
+$$
+
+​	以上就是Baum-Welsh算法，是EM算法在隐马尔可夫模型学习中的具体实现；
+
+- **Baum-Welsh算法**：
+  1. **输入**观测数据$O=(o_1,o_2,\dots,o_T)​$；
+  2. 初始化：对$n=0​$，选取$a_{ij}^{(0)},b_j(k)^{(0)},\pi_i^{(0)}​$得到模型$\lambda^{(0)}=(A^{(0)},B^{(0)},\pi^{(0)})​$；
+  3. 递推，对于$n=1,2,\dots​$，使用上述式子更新模型参数；
+  4. **输出**最终模型参数$\lambda^{(n+1)}=(A^{(n+1)},B^{(n+1)},\pi^{(n+1)})$；
+
+## 10.4 预测算法
+
+### 10.4.1 近似算法
+
+- **思想**：在每个时刻$t​$选择在该时刻最有可能出现的状态$i_t^*​$，从而得到一个状态序列$I^*=(i_1^*,\dots,i_T^*)​$将其作为预测的结果；
+- 给定隐马尔可夫模型$\lambda$和观测序列$O$，在时刻$t$处于状态$q_i$的概率是
+
+$$
+\gamma_t(i)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^{N}\alpha_t(j)\beta_t(j)}
+$$
+
+- 在每一时刻$t$最有可能的状态是
+
+$$
+i_t^*=\arg\max\limits_{1\leq i\leq N}[\gamma_t(i)], \quad t=1,2,\dots,T
+$$
+
+- 算法的优点是计算简单，但是缺点是不能保证预测的状态序列<u>*整体是最有可能的*</u>，因为预测的状态序列可能有实际不发生的部分；
+- 上述方法的得到的状态序列中有可能存在<u>*转移概率为0*</u>的相邻状态；
+
+### 10.4.2 维特比算法
+
+- **维特比算法**（Viterbi algorithm）：利用<u>*动态规划*</u>（dynamic programming）解隐马尔可夫模型预测问题，求概率最大路径（最优路径），这条路径对应一个状态序列；
+
+- 动态规划得到的最优路径的特性：如果最优路径在时刻$t$通过结点$i_t^*$，那么这一路径从结点$i_t^*$到终点$i_T^*$的部分路径，对于从从$i_t^*$到$i_T^*$的所有可能的部分路径来说，也是最优的；
+- 因此只需从时刻$t=1$开始，递推地计算在时刻$t$状态为$i$的各条部分路径的最大概率，直到得到时刻$t=T$状态为$i$的各条部分路径的最大概率，即为最优路径的概率$P^*$，最优路径的终结点$i_T^*$也同时得到；
+- 为了找出最优路径的各个结点，从终结点开始，由后向前逐步求得，得到最优路径；
+
+- 定义在时刻$t​$状态为$i​$的所有单个路径$(i_1,i_2,\dots,i_t)​$中概率最大值为：
+
+$$
+\delta_t(i)=\max\limits_{i_1,i_2,\dots,i_{t-1}}P(i_t=i,i_{t-1},\dots,i_1,o_t,\dots,o_1|\lambda), \quad i=1,2,\dots,N
+$$
+
+- 由此可得变量$\delta$的递推公式为
+
+$$
+\begin{aligned}
+\delta_{t+1}(i)&=\max\limits_{i_1,i_2,\dots,i_{t}}P(i_{t+1}=i,i_{t},\dots,i_1,o_{t+1},\dots,o_1|\lambda) \\ 
+&=\max\limits_{1\leq j\leq N}[\delta_t(j)a_{ji}]b_t(o_{t+1}) \quad i=1,2,\dots,N; t=1,2,\dots,T-1
+\end{aligned}
+$$
+
+- 定义在时刻$t$状态为$i$的所有单个路径$(i_1,i_2,\dots,i_t)$中概率最大的路径的第$t-1$个结点为：
+
+$$
+\psi_t(i)=\arg\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}], \quad i=1,2,\dots,N
+$$
+
+
+
+- **维特比算法**：
+
+  1. **输入**模型$\lambda=(A,B,\pi)$和观测数据$O=(o_1,o_2,\dots,o_T)$；
+
+  2. 初始化：
+     $$
+     \begin{aligned}
+     \delta_1(i)=\pi_ib_i(o_1), \quad i=1,2,\dots,N \\
+     \psi_1(i) = 0, \quad i=1,2,\dots,N
+     \end{aligned}
+     $$
+
+  3. 递推，对于$t=2,3,\dots,T$
+     $$
+     \begin{aligned}
+     \delta_{t}(i)=\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}]b_t(o_{t}) \quad i=1,2,\dots,N\\
+     \psi_t(i)=\arg\max\limits_{1\leq j\leq N}[\delta_{t-1}(j)a_{ji}], \quad i=1,2,\dots,N \\
+     \end{aligned}
+     $$
+
+  4. 终止
+     $$
+     P^*=\max\limits_{1\leq i\leq N}\delta_T(i) \\
+     i_T^*=\arg\max\limits_{1\leq i\leq N}[\delta_T(i)]
+     $$
+
+  5. 最优路径回溯，对于$t=T-1,T-2,\dots,1$
+     $$
+     i_t^*=\psi_{t+1}(i_{t+1}^*)
+     $$
+     求得最优路径$I^*=(i_1^*,\dots,i_T^*)$；
 
