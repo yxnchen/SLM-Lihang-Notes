@@ -51,11 +51,11 @@
 $$
 P(Y)=\frac{1}{Z}\prod_{C}\Psi_C(Y_C)
 $$
-其中$Z$是归一化因子（normalization factor），保证$P(Y)$构成一个概率分布：
+​	其中$Z$是归一化因子（normalization factor），保证$P(Y)$构成一个概率分布：
 $$
 Z=\sum_{Y}\prod_{C}\Psi_C(Y_C)
 $$
-函数$\Psi_C(Y_C)$称为**势函数**（potential function），且要求势函数是严格正的，通常定义为指数函数：
+​	函数$\Psi_C(Y_C)$称为**势函数**（potential function），且要求势函数是严格正的，通常定义为指数函数：
 $$
 \Psi_C(Y_C)=\exp \{-E(Y_C)\}
 $$
@@ -65,7 +65,7 @@ $$
 P(Y)=\frac{1}{Z}\prod_{C}\Psi_C(Y_C) \\
 Z=\sum_{Y}\prod_{C}\Psi_C(Y_C)
 $$
-其中$C$是无向图的最大团，$\Psi_C(Y_C)$是$C$上定义的严格正函数，乘积是在无向图的所有最大团上进行；
+​	其中$C$是无向图的最大团，$\Psi_C(Y_C)$是$C$上定义的严格正函数，乘积是在无向图的所有最大团上进行；
 
 ## 11.2 条件随机场的定义与形式
 ### 11.2.1 条件随机场的定义
@@ -74,14 +74,16 @@ $$
 $$
 P(Y_v|X,Y_w,w \neq v)=P(Y_v|X,Y_w,w\sim v)
 $$
-对于任意结点$v$成立，则称条件概率分布$P(Y|X)$为条件随机场；其中$w\sim v$表示在图$G$中与结点$V$有边连接的所有结点$W$，$w \neq v$表示结点$V$以外的所有结点；
+​	对于任意结点$v$成立，则称条件概率分布$P(Y|X)$为条件随机场；其中$w\sim v$表示在图$G$中与结点$V$有边连接的所有结点$W$，$w \neq v$表示结点$V$以外的所有结点；
 - 上述定义并没有要求$X$和$Y$具有相同的结构，下面主要讨论$X$和$Y$有相同的图结构，即考虑线性链的情况
 $$
 G=(V=(1,2,\dots,n), E={(i,i+1)}), \quad i=1,2,\dots,n-1
 $$
-此时$X=(X_1,X_2,\cdots,X_n)$，$Y=(Y_1,Y_2,\cdots,Y_n)$，最大团是相邻两个结点的集合；
+​	此时$X=(X_1,X_2,\cdots,X_n)$，$Y=(Y_1,Y_2,\cdots,Y_n)$，最大团是相邻两个结点的集合；
 - 下图分别是“线性链条件随机场”和“X和Y具有相同的图结构的线性链条件随机场”的示意图
+
 ![](./graphics/linear-chain-CRF.png)
+
 ![](./graphics/linear-chain-CRF-XY.png)
 
 - **线性链条件随机场**（linear chain conditional random field）可以用于标注问题，这时在条件概率模型$P(Y|X)$中，$Y$是输出变量，表示标记序列，$X$是输入变量，表示需要标注的观测序列；
@@ -90,18 +92,18 @@ $$
 P(Y_i|X,Y_1,\cdots,Y_{i-1},Y_{i+1},\cdots,Y_{n})=P(Y_i|X,Y_{i-1},Y_{i+1}), \\
 i=1,2,\dots,n (在i=1和n时只考虑单边)
 $$
-则称$P(Y|X)$为线性链条件随机场；
+​	则称$P(Y|X)$为线性链条件随机场；
 
 ### 11.2.2 条件随机场的参数化形式
 - **线性链条件随机场的参数化形式**定理：设$P(Y|X)$为线性链条件随机场，则在随机变量$X$取值为$x$的条件下，随机变量$Y$取值为$y$的条件概率具有如下形式
 $$
 P(y|x)=\frac{1}{Z(x)}\exp\left(\sum_{i,k}\lambda_kt_k(y_{i-1},y_i,x,i)+\sum_{i,l}\mu_ls_l(y_i,x,i)\right)
 $$
-其中
+​	其中
 $$
 Z(x)=\sum_{y}\exp\left(\sum_{i,k}\lambda_kt_k(y_{i-1},y_i,x,i)+\sum_{i,l}\mu_ls_l(y_i,x,i)\right)
 $$
-式中，$t_k$和$s_l$是特征函数，$\lambda_k$和$\mu_l$是对应的权重，$Z(x)$是归一化因子，求和是在所有可能输出序列上进行；
+​	式中，$t_k$和$s_l$是特征函数，$\lambda_k$和$\mu_l$是对应的权重，$Z(x)$是归一化因子，求和是在所有可能输出序列上进行；
 - 上式中的$t_k$是定义在边上的转移函数，称为转移特征，依赖于当前和前一个位置；$s_l$是定义在结点上的特征函数，称为状态特征，依赖于当前位置；两者都依赖于位置，是局部特征函数；
 - 通常特征函数$t_k$和$s_l$取值为1（当满足特征条件时），否则为0；
 - 线性链条件随机场也是**对数线性模型**（log linear model）；
@@ -161,11 +163,11 @@ $$
 $$
 P_w(y|x)=\frac{1}{Z_w(x)}\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)
 $$
-其中$Z_w(x)$是规范化因子，是$n+1$个矩阵的乘积的(start,stop)元素：
+​	其中$Z_w(x)$是规范化因子，是$n+1$个矩阵的乘积的(start,stop)元素：
 $$
 Z_w(x)=(M_1(x)M_2(x)\cdots M_{n+1}(x))_{\text{start},\text{stop}}
 $$
-注意，$y_0=\text{start}$与$y_{n+1}=\text{stop}$表示开始与终止状态，规范化因子是以start为起点stop为终点通过状态的所有路径$y_1y_2\cdots y_n$的非规范化概率$\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)$之和；
+​	注意，$y_0=\text{start}$与$y_{n+1}=\text{stop}$表示开始与终止状态，规范化因子是以start为起点stop为终点通过状态的所有路径$y_1y_2\cdots y_n$的非规范化概率$\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)$之和；
 
 ## 11.3 条件随机场的概率计算问题
 
@@ -184,15 +186,15 @@ $$
 \end{aligned}
 \right.
 $$
-递推公式为
+​	递推公式为
 $$
 \alpha_i^T(y_i|x)=\alpha_{i-1}^T(y_{i-1}|x)[M_i(y_{i-1},y_i|x)], \quad i=1,2,\dots,n+1
 $$
-或写成
+​	或写成
 $$
 \alpha_i^T(x)=\alpha_{i-1}^T(x)M_i
 $$
-$\alpha_i(y_i|x)$表示在位置$i$的标记是$y_i$并且到位置$i$的前部分标记序列的非规范化概率，$y_i$可取的值有$m$个，所以$\alpha_i(x)$是$m$维列向量；
+​	其中$\alpha_i(y_i|x)$表示在位置$i$的标记是$y_i$并且到位置$i$的前部分标记序列的非规范化概率，$y_i$可取的值有$m$个，所以$\alpha_i(x)$是$m$维列向量；
 
 - 同样对于对于每个索引$i=0,1,\dots,n+1$，定义**后向向量**$\beta_i(x)$：
 $$
@@ -206,17 +208,17 @@ $$
 \beta_i(y_i|x) &= [M_i(y_i,y_{i+1}|x)]\beta_{i+1}(y_{i+1}|x)
 \end{aligned}
 $$
-即
+​	即
 $$
 \beta_i(x) = M_{i+1}(x)\beta_{i+1}(x)
 $$
-$\beta_i(y_i|x)$表示在位置$i$的标记为$y_i$并且从$i+1$到$n$的后部分标记序列的非规范化概率；
+​	其中$\beta_i(y_i|x)$表示在位置$i$的标记为$y_i$并且从$i+1$到$n$的后部分标记序列的非规范化概率；
 
 - 由前向-后向向量定义可以得到
 $$
 Z(x)=\alpha_n^T(x)\cdot \boldsymbol{1}=\boldsymbol{1}^T \cdot \beta_1(x)
 $$
-其中$\boldsymbol{1}$是元素均为1的$m$维列向量；
+​	其中$\boldsymbol{1}$是元素均为1的$m$维列向量；
 
 ### 11.3.2 概率计算
 
@@ -224,11 +226,12 @@ $$
 $$
 P(Y_i=y_i|x)=\frac{\alpha_i^T(y_i|x)\beta_i(y_i|x)}{Z(x)}
 $$
--标记序列在位置$i-1$和$i$分别是标记$y_{i-1}$和$y_i$的条件概率
+- 标记序列在位置$i-1$和$i$分别是标记$y_{i-1}$和$y_i$的条件概率
+
 $$
 P(Y_{i-1}=y_{i-1},Y_i=y_i|x)=\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}
 $$
-其中$Z(x)=\alpha_n^T(x)\cdot \boldsymbol{1}$；
+​	其中$Z(x)=\alpha_n^T(x)\cdot \boldsymbol{1}$；
 
 ### 11.3.3 期望值的计算
 
@@ -311,25 +314,25 @@ $$
 $$
 s(x,y) = S-\sum_{k=1}^{K}\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i)
 $$
-其中$S$是一个常数，选择足够大的常数$S$使得训练数据集的所有数据，$s(x,y)\geq 0$成立，这时特征总数可取为$S$；
+​	其中$S$是一个常数，选择足够大的常数$S$使得训练数据集的所有数据，$s(x,y)\geq 0$成立，这时特征总数可取为$S$；
 
 - 此时对于转移特征$t_k$，$\delta_k$的更新方程为
 $$
 \delta_k=\frac{1}{S}\log\frac{\mathbb{E}_{\tilde{P}}[t_k]}{\mathbb{E}_{P}[t_k]}
 $$
-其中$\mathbb{E}_{P}[t_k]=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}t_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}$；
+​	其中$\mathbb{E}_{P}[t_k]=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}t_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}$；
 - 同理，对于状态特征$s_l$，$\delta_k$的更新方程为
 $$
 \delta_k=\delta_{K_1+l}=\frac{1}{S}\log\frac{\mathbb{E}_{\tilde{P}}[s_l]}{\mathbb{E}_{P}[s_l]}
 $$
-其中$\mathbb{E}_{P}[s_l]=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n}\sum_{y_i}s_l(y_i,x,i)\frac{\alpha_{i}^T(y_{i}|x)\beta_i(y_i|x)}{Z(x)}$
+​	其中$\mathbb{E}_{P}[s_l]=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n}\sum_{y_i}s_l(y_i,x,i)\frac{\alpha_{i}^T(y_{i}|x)\beta_i(y_i|x)}{Z(x)}$
 - 以上算法成为**算法S**，需要使用常数$S$足够带，这样每一步迭代的增量向量会变大，算法收敛慢；
 
 - **算法T**试图解决该问题，对于每个观测序列$x$计算其特征总数最大值$T(x)$：
 $$
 T(x)=\max\limits_{y}T(x,y)
 $$
-且利用前向-后向递推式，容易计算出$T(x)=t$；
+​	且利用前向-后向递推式，容易计算出$T(x)=t$；
 
 - 转移特征参数的更新方程为：
 $$
@@ -340,7 +343,7 @@ $$
 &=\sum_{t=0}^{T_{max}}a_{k,t}\beta_k^t
 \end{aligned}
 $$
-其中$a_{k,t}$是特征$t_k$的期望值，$\delta_k=\log \beta_k$，$\beta_k$是上述方程的唯一实根，可以用牛顿法求得，从而得到$\delta_k$的更新式；
+​	其中$a_{k,t}$是特征$t_k$的期望值，$\delta_k=\log \beta_k$，$\beta_k$是上述方程的唯一实根，可以用牛顿法求得，从而得到$\delta_k$的更新式；
 
 - 同理，对于状态特征参数的更新方程为：
 $$
@@ -349,7 +352,7 @@ $$
 &=\sum_{t=0}^{T_{max}}b_{l,t}\gamma_l^t
 \end{aligned}
 $$
-其中$b_{l,t}$是特征$s_l$的期望值，$\delta_l=\log \gamma_l$，$\gamma_l$是上述方程的唯一实根，也可以用牛顿法求得；
+​	其中$b_{l,t}$是特征$s_l$的期望值，$\delta_l=\log \gamma_l$，$\gamma_l$是上述方程的唯一实根，也可以用牛顿法求得；
 
 ### 11.4.2 拟牛顿法
 
@@ -357,14 +360,14 @@ $$
 $$
 P_w(y|x)=\frac{\exp(\sum_{k=1}^{K}w_kf_k(y,x))}{\sum_{y}\exp(\sum_{k=1}^{K}w_kf_k(y,x))}
 $$
-学习的优化目标函数是
+​	学习的优化目标函数是
 $$
 \begin{aligned}
 \min\limits_{w\in\mathbb{R}^K}f(w)&=-L(w) \\
 &=\sum_{x}\tilde{P}(x)\log\sum_{y}\exp\left(\sum_{k=1}^{K}w_kf_k(y,x)\right)-\sum_{x,y}\tilde{P}(x,y)\sum_{k=1}^{K}w_kf_k(y,x) \\
 \end{aligned}
 $$
-其梯度函数为
+​	其梯度函数为
 $$
 \begin{aligned}
 g(w)&=\sum_{x,y}\tilde{P}(x)P_w(y|x)f(x,y)-\sum_{x,y}\tilde{P}(x,y)f(x,y) \\
@@ -383,7 +386,63 @@ $$
     $$
     B_{j+1}=B_{j}+\frac{y_jy_j^T}{y_j^T\delta_j}-\frac{B_j\delta_j\delta_j^TB_j}{\delta_j^TB_j\delta_j}
     $$
-    其中$y_j=g_{j+1}-g_j, \delta_j=w^{(j+1)}-w^{(j)}$；
+    ​	其中$y_j=g_{j+1}-g_j, \delta_j=w^{(j+1)}-w^{(j)}$；
+
     8. 置$j=j+1$，重复步骤（4）；
 
 ## 11.5 条件随机场的预测算法
+
+- 条件随机场的预测问题是给定条件随机场$P(Y|X)$和输入序列（观测序列）$x$，求条件概率最大的输出序列（标记序列）$y^*$；
+- 由条件随机场的定义可得：
+$$
+\begin{aligned}
+y^* &=\arg\max\limits_{y}P_w(y|x) \\
+&=\arg\max\limits_{y}\frac{\exp(w\cdot F(y,x))}{Z_w(x)} \\
+&=\arg\max\limits_{y}\exp(w\cdot F(y,x)) \\
+&=\arg\max\limits_{y}(w\cdot F(y,x))
+\end{aligned}
+$$
+​	因此预测问题变成求*非规范化概率最大的最优路径（标记序列）问题*：
+$$
+\max\limits_{y}(w\cdot F(y,x))
+$$
+​	其中
+$$
+\begin{aligned}
+w &=(w_1,w_2,\dots,w_K)^T \\
+F(y,x) &= (f_1(y,x), f_2(y,x), \dots, f_K(y,x))^T \\
+f_k(y,x) &= \sum_{i=1}^{n}f_k(y_{i-1},y_i,x,i), k=1,2,\dots,K
+\end{aligned}
+$$
+
+> 这时只需计算非规范化概率，而不必计算概率，大大提高效率
+
+- 为了求解最优路径，进一步写成如下形式：
+$$
+\max\limits_{y}\sum_{i=1}^{n}w\cdot F_i(y_{i-1},y_i,x)
+$$
+​	其中$F_i(y_{i-1},y_i,x)=(f_1(y_{i-1},y_i,x,i),f_2(y_{i-1},y_i,x,i),\dots,f_K(y_{i-1},y_i,x,i))^T$是局部特征向量；
+
+- **条件随机场预测的维特比算法**：
+    1. **输入**模型特征向量$F(y,x)$和权值向量$w$，观测序列$x=(x_1,x_2,\dots,x_n)$；
+    2. 初始化，即求出位置1的各个标记$j=1,2,\dots,m$的非规范化概率：
+    $$
+    \delta_1(j)=w\cdot F_1(y_0=\text{start},y_1=j,x), j=1,2,\dots,m
+    $$
+    3. 由递推公式，求出位置$i$的各个标记$l=1,2,\dots,m$的非规范化概率的最大值，同时记录最大值的路径，对于$i=2,3,\dots,n$：
+    $$
+    \begin{aligned}
+    \delta_i(l)&=\max\limits_{1\leq j\leq m}\{\delta_{i-1}(j)+w\cdot F_i(y_{i-1}=j,y_i=l,x)\}, l=1,2,\dots,m \\
+    \Psi_i(l)&=\arg\max\limits_{1\leq j\leq m}\{\delta_{i-1}(j)+w\cdot F_i(y_{i-1}=j,y_i=l,x)\}, l=1,2,\dots,m
+    \end{aligned}
+    $$
+    4. 终止，求得非规范化概率的最大值及最优路径的终点：
+    $$
+    \max\limits_{y}(w\cdot F(y,x))=\max\limits_{1\leq j\leq m}\delta_n(j) \\
+    y^*_n=\arg\max\limits_{1\leq j\leq m}\delta_n(j)
+    $$
+    5. 由此最优路径终点返回：
+    $$
+    y_i^*=\Psi_{i+1}(y_{i+1}^*), i=n-1,n-2,\dots,1
+    $$
+    ​	求得最优路径$y^*=(y_1^*,y_2^*,\dots,y_n^*)^T$；
