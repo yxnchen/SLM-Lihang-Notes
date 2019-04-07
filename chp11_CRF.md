@@ -107,3 +107,43 @@ $$
 - 线性链条件随机场也是**对数线性模型**（log linear model）；
 
 ### 11.2.3 条件随机场的简化形式
+- 在条件随机场中，同一特征在各个位置都有定义，可以对统一特征在各个位置求和，将局部特征函数转化为一个全局的特征函数，这时条件随机场就可以写成权值向量和特征向量的内积的形式；
+- 设有$K_1$个转移特征，$K_2$个状态特征，$K=K_1+K_2$，记
+$$
+f_k(y_{i-1},y_i,x,i)
+=\left\{
+\begin{aligned}
+t_k(y_{i-1},y_i,x,i), &\quad k=1,2,\dots,K_1 \\
+s_l(y_i,x,i), &\quad  k=K_1+l; l=1,2,\dots,K_2 
+\end{aligned}
+\right.
+$$
+- 然后对转移与状态特征在各个位置$i$求和，得到
+$$
+f_k(y,x)=\sum_{i=1}^{n}f_k(y_{i-1},y_i,x,i),\quad k=1,2,\dots,K
+$$
+- 用$w_k$表示特征$f_k(y,x)$的权值，即
+$$
+w_k=\left\{
+\begin{aligned}
+\lambda_k, &\quad k=1,2,\dots,K_1 \\
+\mu_l, &\quad  k=K_1+l; l=1,2,\dots,K_2 
+\end{aligned}
+\right.
+$$
+- 因此条件随机场就可以表示为
+$$
+\begin{aligned}
+P(y|x)&=\frac{1}{Z(x)}\exp\sum_{k=1}^{K}w_kf_k(y,x) \\
+Z(x) &= \sum_{y}\exp\sum_{k=1}^{K}w_kf_k(y,x)
+\end{aligned}
+$$
+- 若以$w$表示权值向量，即$w=(w_1,w_2,\dots,w_K)^T$，以$F(y,x)$表示全局特征向量，即$F(y,x)=(f_1(y,x),f_2(y,x),\dots,f_K(y,x))^T$，则条件随机场可以写成向量内积的形式：
+$$
+\begin{aligned}
+P_w(y|x)&=\frac{\exp(w\cdot F(y,x))}{Z_w(x)} \\
+Z_w(x) &=\sum_{y}\exp(w\cdot F(y,x)) 
+\end{aligned}
+$$
+
+### 11.2.4 条件随机场的矩阵形式
