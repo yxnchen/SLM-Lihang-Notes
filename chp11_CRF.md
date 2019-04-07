@@ -147,3 +147,243 @@ Z_w(x) &=\sum_{y}\exp(w\cdot F(y,x))
 $$
 
 ### 11.2.4 条件随机场的矩阵形式
+
+- 假设$P_w(y|x)$是线性链条件随机场，表示对给定观测序列$x$，相应的标记序列$y$的条件概率，引进特殊的起点与重点状态标记$y_0=\text{start}, y_{n+1}=\text{stop}$，这时$P_w(y|x)$可以通过矩阵形式表示；
+- 对观测序列$x$的每一个位置$i=1,2,\dots,n+1$，定义一个$m$阶矩阵（$m$是标记$y_i$取值的个数）
+$$
+\begin{aligned}
+M_i(x)&=[M_i (y_{i-1},y_i|x)] \\
+M_i(y_{i-1},y_i|x) &= \exp(W_i(y_{i-1},y_i|x)) \\
+W_i(y_{i-1},y_i|x) & = \sum_{k=1}^{K}w_k f_k(y_{i-1},y_i,x,i)
+\end{aligned}
+$$
+- 这样给定观测序列$x$，相应标记序列$y$的非规范化概率可以通过该序列$n+1$个矩阵适当元素的乘积$\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)$表示，而条件概率是
+$$
+P_w(y|x)=\frac{1}{Z_w(x)}\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)
+$$
+其中$Z_w(x)$是规范化因子，是$n+1$个矩阵的乘积的(start,stop)元素：
+$$
+Z_w(x)=(M_1(x)M_2(x)\cdots M_{n+1}(x))_{\text{start},\text{stop}}
+$$
+注意，$y_0=\text{start}$与$y_{n+1}=\text{stop}$表示开始与终止状态，规范化因子是以start为起点stop为终点通过状态的所有路径$y_1y_2\cdots y_n$的非规范化概率$\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)$之和；
+
+## 11.3 条件随机场的概率计算问题
+
+> 条件随机场的概率计算问题是给定条件随机场$P(Y|X)$，输入序列$x$和输出序列$y$，计算条件概率$P(Y_i=y_i|x), P(Y_{i-1}=y_{i-1},Y_i=y_i|x)$以及相应的数学期望的问题。
+
+### 11.3.1 前向-后向算法
+
+> 跟隐马尔可夫模型类似，引进前向-后向算法，递归计算概率以及期望值
+
+- 对于每个索引$i=0,1,\dots,n+1$，定义**前向向量**$\alpha_i(x)$：
+$$
+\alpha_0(y|x)=\left\{
+\begin{aligned}
+1, &\quad y=\text{start} \\
+0, &\quad \text{otherwise} 
+\end{aligned}
+\right.
+$$
+递推公式为
+$$
+\alpha_i^T(y_i|x)=\alpha_{i-1}^T(y_{i-1}|x)[M_i(y_{i-1},y_i|x)], \quad i=1,2,\dots,n+1
+$$
+或写成
+$$
+\alpha_i^T(x)=\alpha_{i-1}^T(x)M_i
+$$
+$\alpha_i(y_i|x)$表示在位置$i$的标记是$y_i$并且到位置$i$的前部分标记序列的非规范化概率，$y_i$可取的值有$m$个，所以$\alpha_i(x)$是$m$维列向量；
+
+- 同样对于对于每个索引$i=0,1,\dots,n+1$，定义**后向向量**$\beta_i(x)$：
+$$
+\begin{aligned}
+\beta_{n+1}(y_{n+1}|x)&=\left\{
+\begin{aligned}
+1, &\quad y_{n+1}=\text{stop} \\
+0, &\quad \text{otherwise} 
+\end{aligned}
+\right. \\
+\beta_i(y_i|x) &= [M_i(y_i,y_{i+1}|x)]\beta_{i+1}(y_{i+1}|x)
+\end{aligned}
+$$
+即
+$$
+\beta_i(x) = M_{i+1}(x)\beta_{i+1}(x)
+$$
+$\beta_i(y_i|x)$表示在位置$i$的标记为$y_i$并且从$i+1$到$n$的后部分标记序列的非规范化概率；
+
+- 由前向-后向向量定义可以得到
+$$
+Z(x)=\alpha_n^T(x)\cdot \boldsymbol{1}=\boldsymbol{1}^T \cdot \beta_1(x)
+$$
+其中$\boldsymbol{1}$是元素均为1的$m$维列向量；
+
+### 11.3.2 概率计算
+
+- 标记序列在位置$i$是标记$y_i$的条件概率
+$$
+P(Y_i=y_i|x)=\frac{\alpha_i^T(y_i|x)\beta_i(y_i|x)}{Z(x)}
+$$
+-标记序列在位置$i-1$和$i$分别是标记$y_{i-1}$和$y_i$的条件概率
+$$
+P(Y_{i-1}=y_{i-1},Y_i=y_i|x)=\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}
+$$
+其中$Z(x)=\alpha_n^T(x)\cdot \boldsymbol{1}$；
+
+### 11.3.3 期望值的计算
+
+> 利用前向-后向向量，可以计算特征函数关于联合分布和条件分布的数学期望
+
+- 特征函数$f_k$关于条件分布$P(Y|X)$的数学期望
+$$
+\begin{aligned}
+\mathbb{E}_{P(Y|X)}[f_k]&=\sum_{y}P(y|x)f_k(y,x) \\
+&=\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)} \\
+&\quad \quad k=1,2,\dots,K
+\end{aligned}
+$$
+
+- 假设经验分布为$\tilde{P}(X)$，特征函数$f_k$关于联合分布$P(X,Y)$的数学期望是
+$$
+\begin{aligned}
+\mathbb{E}_{P(X,Y)}[f_k]&=\sum_{x,y}P(x,y)\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i) \\
+&=\sum_{x}\tilde{P}(x)\sum_{y}P(y|x)\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i) \\
+&=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)} \\
+&\quad \quad k=1,2,\dots,K
+\end{aligned}
+$$
+
+- 对于转移特征$t_k(y_{i-1},y_i,x,i),k=1,2,\dots,K_1$可以将式中$f_k$换成$t_k$；对于状态特征，可以将式中$f_k$换成$s_l$，表示为$s_l(y_i,x,i),k=K_1+l,l=1,2,\dots,K_2$;
+
+## 11.4 条件随机场的学习算法
+
+> 条件随机场实际上是定义在时序数据上的对数线性模型
+
+### 11.4.1 改进的迭代尺度法
+
+- 已知训练数据集，可知经验概率分布$\tilde{P}(X,Y)$，通过极大化训练数据的对数似然函数求模型参数；
+- 对数似然函数为
+$$
+\begin{aligned}
+L(w)&=L_{\tilde{P}}(P_w)=\log\prod_{x,y}P_w(y|x)^{\tilde{P}(x,y)}=\sum_{x,y}\tilde{P}(x,y)\log P_w(y|x) \\
+& =\sum_{x,y}\left[\tilde{P}(x,y)\sum_{k=1}^{K}w_kf_k(y,x) - \tilde{P}(x,y)\log Z_w(x) \right] \\
+& =\sum_{j=1}^{N}\sum_{k=1}^{K}w_kf_k(y_j,x_j) - \sum_{j=1}^{N}\log Z_w(x)\\
+\end{aligned}
+$$
+- 改进的迭代尺度法通过迭代的方法不断优化对数似然函数改变量的下界，达到极大化对数似然函数的目的，假设模型当前参数向量$w=(w_1,\dots,w_K)^T$，向量的增量为$\delta=(\delta_1,\dots,\delta_K)^T$，更新参数向量为$w+\delta=(w_1+\delta_1,\dots,w_K+\delta_K)^T$；
+- 转移特征的更新方程为
+$$
+\begin{aligned}
+\mathbb{E}_{\tilde{P}}[t_k]&=\sum_{x,y}\tilde{P}(x,y)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i) \\
+&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp(\delta_kT(x,y)) \\
+&\quad \quad k=1,2,\dots,K_1
+\end{aligned}
+$$
+- 状态特征的更新方程为
+$$
+\begin{aligned}
+\mathbb{E}_{\tilde{P}}[s_l]&=\sum_{x,y}\tilde{P}(x,y)\sum_{i=1}^{n+1}s_l(y_i,x,i) \\
+&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(y_i,x,i)\exp(\delta_{K_1+l}T(x,y)) \\
+&\quad \quad l=1,2,\dots,K_2
+\end{aligned}
+$$
+- 其中$T(x,y)$是在数据$(x,y)$中出现所有特征数的总和：
+$$
+T(x,y)=\sum_{k}f_k(y,x)=\sum_{k=1}^{K}\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i)
+$$
+
+- **条件随机场模型学习的改进的迭代尺度法**：
+    1. **输入**特征函数$t_1,\dots,t_{K_1},\quad s_1,\dots,s_{K_2}$，经验分布$\tilde{P}(x,y)$;
+    2. 对于所有$k\in\{1,2,\dots,K\}$，取初值$w_k=0$；
+    3. 对于每一个$k\in\{1,2,\dots,K\}$：
+        1. 当$k=1,2,\dots,K_1$时，令$\delta_k$是以下方程的解
+        $$
+        \sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp(\delta_kT(x,y))=\mathbb{E}_{\tilde{P}}[t_k]
+        $$
+        当$k=K_1+l,l=1,2,\dots,K_2$时，令$\delta_k$是以下方程的解
+        $$
+        \sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(y_i,x,i)\exp(\delta_{K_1+l}T(x,y))=\mathbb{E}_{\tilde{P}}[s_l]
+        $$
+        2. 更新$w_k$的值：$w_k\leftarrow w_k+\delta_k$;
+    4. 如果不是所有的$w_k$都收敛，重复步骤（3）；
+
+- $T(x,y)$表示数据$(x,y)$中的特征总数，对不同的数据取自可能不同，为了解决这个问题，定义松弛特征
+$$
+s(x,y) = S-\sum_{k=1}^{K}\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i)
+$$
+其中$S$是一个常数，选择足够大的常数$S$使得训练数据集的所有数据，$s(x,y)\geq 0$成立，这时特征总数可取为$S$；
+
+- 此时对于转移特征$t_k$，$\delta_k$的更新方程为
+$$
+\delta_k=\frac{1}{S}\log\frac{\mathbb{E}_{\tilde{P}}[t_k]}{\mathbb{E}_{P}[t_k]}
+$$
+其中$\mathbb{E}_{P}[t_k]=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}t_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}$；
+- 同理，对于状态特征$s_l$，$\delta_k$的更新方程为
+$$
+\delta_k=\delta_{K_1+l}=\frac{1}{S}\log\frac{\mathbb{E}_{\tilde{P}}[s_l]}{\mathbb{E}_{P}[s_l]}
+$$
+其中$\mathbb{E}_{P}[s_l]=\sum_{x}\tilde{P}(x)\sum_{i=1}^{n}\sum_{y_i}s_l(y_i,x,i)\frac{\alpha_{i}^T(y_{i}|x)\beta_i(y_i|x)}{Z(x)}$
+- 以上算法成为**算法S**，需要使用常数$S$足够带，这样每一步迭代的增量向量会变大，算法收敛慢；
+
+- **算法T**试图解决该问题，对于每个观测序列$x$计算其特征总数最大值$T(x)$：
+$$
+T(x)=\max\limits_{y}T(x,y)
+$$
+且利用前向-后向递推式，容易计算出$T(x)=t$；
+
+- 转移特征参数的更新方程为：
+$$
+\begin{aligned}
+\mathbb{E}_{\tilde{P}}[t_k]&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp(\delta_kT(x)) \\
+&=\sum_{x}\tilde{P}(x)\sum_{y}P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp(\delta_kT(x)) \\
+&=\sum_{x}\tilde{P}(x)a_{k,t}\exp(\delta_k\cdot t) \\
+&=\sum_{t=0}^{T_{max}}a_{k,t}\beta_k^t
+\end{aligned}
+$$
+其中$a_{k,t}$是特征$t_k$的期望值，$\delta_k=\log \beta_k$，$\beta_k$是上述方程的唯一实根，可以用牛顿法求得，从而得到$\delta_k$的更新式；
+
+- 同理，对于状态特征参数的更新方程为：
+$$
+\begin{aligned}
+\mathbb{E}_{\tilde{P}}[s_l]&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(y_i,x,i)\exp(\delta_{K_1+l}T(x,y)) \\
+&=\sum_{t=0}^{T_{max}}b_{l,t}\gamma_l^t
+\end{aligned}
+$$
+其中$b_{l,t}$是特征$s_l$的期望值，$\delta_l=\log \gamma_l$，$\gamma_l$是上述方程的唯一实根，也可以用牛顿法求得；
+
+### 11.4.2 拟牛顿法
+
+- 对于条件随机场模型
+$$
+P_w(y|x)=\frac{\exp(\sum_{k=1}^{K}w_kf_k(y,x))}{\sum_{y}\exp(\sum_{k=1}^{K}w_kf_k(y,x))}
+$$
+学习的优化目标函数是
+$$
+\begin{aligned}
+\min\limits_{w\in\mathbb{R}^K}f(w)&=-L(w) \\
+&=\sum_{x}\tilde{P}(x)\log\sum_{y}\exp\left(\sum_{k=1}^{K}w_kf_k(y,x)\right)-\sum_{x,y}\tilde{P}(x,y)\sum_{k=1}^{K}w_kf_k(y,x) \\
+\end{aligned}
+$$
+其梯度函数为
+$$
+\begin{aligned}
+g(w)&=\sum_{x,y}\tilde{P}(x)P_w(y|x)f(x,y)-\sum_{x,y}\tilde{P}(x,y)f(x,y) \\
+&=\sum_{x,y}\tilde{P}(x)P_w(y|x)f(x,y)-\mathbb{E}_{\tilde{P}}(f)
+\end{aligned}
+$$
+
+- **条件随机场模型学习的BFGS算法**：
+    1. **输入**特征函数$f_1,\dots,f_n$，经验分布$\tilde{P}(X,Y)$；
+    2. 选定初始点$w^{(0)}$，取$B_0$为正定对称矩阵，置$j=0$；
+    3. 计算$g_j=g(w^{(j)})$，若$g_j=0$，停止计算，否则进入下一步；
+    4. 由$B_jp_j=-g_j$求出$p_j$；
+    5. 一维搜索，求$\lambda_j$使得$f(w^{(j)}+\lambda_jp_j)=\min\limits_{\lambda\geq 0}f(w^{(j)}+\lambda p_j)$；
+    6. 置$w^{(j+1)}=w^{(j)}+\lambda_jp_j$；
+    7. 计算$g_{j+1}=g(w^{(j+1)})$，若$g_{j+1}=0$。则停止计算；否则按照下式求出$B_{j+1}$：
+    $$
+    B_{j+1}=B_{j}+\frac{y_jy_j^T}{y_j^T\delta_j}-\frac{B_j\delta_j\delta_j^TB_j}{\delta_j^TB_j\delta_j}
+    $$
+    其中$y_j=g_{j+1}-g_j, \delta_j=w^{(j+1)}-w^{(j)}$；
+    8. 置$j=j+1$，重复步骤（4）；
+
+## 11.5 条件随机场的预测算法
