@@ -21,6 +21,6 @@
 | 第八章-提升方法         | 8.1 AdaBoost算法<br />8.2 AdaBoost算法的训练误差分析<br />8.3 AdaBoost算法的解释<br />8.4 提升树 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp8_Boosting.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp8_Boosting.pdf) |      |
 | 第九章-EM算法及推广     | 9.1 EM算法的引入<br />9.2 EM算法的收敛性<br />9.3 EM算法在高斯混合模型应用<br />9.4 EM算法的推广 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp9_EM.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp9_EM.pdf) |      |
 | 第十章-隐马尔可夫模型   | 10.1 基本概念<br />10.2 概念计算算法<br />10.3 学习算法<br />10.4 预测算法 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp10_HMM.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp10_HMM.pdf) |      |
-| 第十一章-条件随机场     | 11.1 概念无向图模型<br />11.2 条件随机场定义与形式<br />11.3 条件随机场概念计算问题<br />11.4 条件随机场学习算法<br />11.5 条件随机场预测算法 |                                                              |      |
-| 第十二章-方法总结       |                                                              |                                                              |      |
+| 第十一章-条件随机场     | 11.1 概念无向图模型<br />11.2 条件随机场定义与形式<br />11.3 条件随机场概念计算问题<br />11.4 条件随机场学习算法<br />11.5 条件随机场预测算法 | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp11_CRF.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp11_CRF.pdf) |      |
+| 第十二章-方法总结       |                                                              | [Markdown](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp12_Summary.md)<br />[PDF](https://github.com/yxnchen/SLM-Lihang-Notes/blob/master/chp12_Summary.pdf) |      |
 
